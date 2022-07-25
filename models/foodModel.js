@@ -1,28 +1,48 @@
-const mongoose = require("mongoose");
+/** @format */
 
-const foodSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Food item must have a name"],
-  },
-  calorie: {
-    type: Number,
-    required: [true, "Provide calorie for this food"],
-  },
-  protein: {
-    type: Number,
-  },
-  carb: {
-    type: Number,
-  },
-  fat: {
-    type: Number,
-  },
-  acceptedUnits: {
-    type: String,
-    enum: ["ml", "litre", "kg", "g", "item"],
-    default: "g",
-  },
+const mongoose = require('mongoose');
+
+const foodSchema = new mongoose.Schema(
+   {
+      name: {
+         type: String,
+         required: [true, 'Food item must have a name'],
+      },
+      calorie: {
+         type: Number,
+         required: [true, 'Provide calorie for this food'],
+      },
+      protein: {
+         type: Number,
+      },
+      carb: {
+         type: Number,
+      },
+      fat: {
+         type: Number,
+      },
+      acceptedUnits: {
+         type: String,
+         enum: ['ml', 'litre', 'kg', 'g', 'item'],
+         default: 'g',
+      },
+   },
+   {
+      toJSON: { virtuals: true },
+      toObject: { virtuals: true },
+   }
+);
+
+foodSchema.virtual('protein_ratio').get(function () {
+   return (
+      Math.round(
+         ((this.protein * 4 * 100) / (this.calorie + this.protein * 4)) * 100
+      ) / 100
+   );
 });
 
-module.exports = mongoose.model("Food", foodSchema);
+foodSchema.virtual('total_calorie').get(function () {
+   return this.protein * 4 + this.calorie;
+});
+
+module.exports = mongoose.model('Food', foodSchema);

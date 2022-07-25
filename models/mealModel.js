@@ -1,22 +1,23 @@
-const Food = require("./foodModel");
-const mongoose = require("mongoose");
+/** @format */
+
+const mongoose = require('mongoose');
 
 const mealSchema = mongoose.Schema({
-  category: {
-    type: String,
-    enum: ["Breakfast", "Lunch", "Evening Snack", "Dinner"],
-    default: "Lunch",
-  },
-  name: {
-    type: String,
-    required: [true, "Meal must have a name"],
-  },
-  foodItems: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "Food",
-    },
-  ],
+   category: {
+      type: String,
+      enum: ['Breakfast', 'Lunch', 'Evening Snack', 'Dinner'],
+      default: 'Lunch',
+   },
+   name: {
+      type: String,
+      required: [true, 'Meal must have a name'],
+   },
+   foodItems: [
+      {
+         type: mongoose.Schema.ObjectId,
+         ref: 'Food',
+      },
+   ],
 });
 
 // mealSchema.pre("save", async function (next) {
@@ -25,4 +26,4 @@ const mealSchema = mongoose.Schema({
 //   next();
 // });
 
-module.exports = mongoose.model("Meal", mealSchema);
+module.exports = mongoose.model('Meal', mealSchema);

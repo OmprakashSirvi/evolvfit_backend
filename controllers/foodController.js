@@ -1,31 +1,36 @@
-const Food = require("../models/foodModel");
+/** @format */
 
-const AppError = require("../utils/AppError");
-const CatchAsync = require("../utils/CatchAsync");
+const Food = require('../models/foodModel');
+
+const AppError = require('../utils/AppError');
+const CatchAsync = require('../utils/CatchAsync');
+const APIFeatures = require('../utils/ApiFeatures');
 
 exports.getAllFood = CatchAsync(async (req, res, next) => {
-  const data = await Food.find();
+   const features = new APIFeatures(Food.find(), req.query).filter().sort();
 
-  if (!data) return next(new AppError("No documents found", 404));
+   const data = await features.query;
 
-  res.status(200).json({
-    status: "success",
-    message: "got your foods ",
-    data: { data },
-  });
+   if (!data) return next(new AppError('No documents found', 404));
+
+   res.status(200).json({
+      status: 'success',
+      message: 'got your foods ',
+      data: { data },
+   });
 });
 
 exports.createFood = CatchAsync(async (req, res, next) => {
-  const body = req.body;
+   const body = req.body;
 
-  if (Object.keys(body).length === 0)
-    return next(new AppError("No data Available", 400));
+   if (Object.keys(body).length === 0)
+      return next(new AppError('No data Available', 400));
 
-  const data = await Food.create(body);
+   const data = await Food.create(body);
 
-  res.status(200).json({
-    status: "success",
-    message: "Your food is created",
-    data,
-  });
+   res.status(200).json({
+      status: 'success',
+      message: 'Your food is created',
+      data,
+   });
 });
