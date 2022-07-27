@@ -6,6 +6,9 @@ const AppError = require('../utils/AppError');
 const CatchAsync = require('../utils/CatchAsync');
 const APIFeatures = require('../utils/ApiFeatures');
 
+/**
+ * get all foods form database
+ */
 exports.getAllFood = CatchAsync(async (req, res, next) => {
    const features = new APIFeatures(Food.find(), req.query).filter().sort();
 
@@ -20,6 +23,9 @@ exports.getAllFood = CatchAsync(async (req, res, next) => {
    });
 });
 
+/**
+ * create new food item
+ */
 exports.createFood = CatchAsync(async (req, res, next) => {
    const body = req.body;
 

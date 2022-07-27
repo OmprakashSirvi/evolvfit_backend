@@ -4,6 +4,9 @@ const Meal = require('../models/mealModel');
 const AppError = require('../utils/AppError');
 const CatchAsync = require('../utils/CatchAsync');
 
+/**
+ * get all meal items form database
+ */
 exports.getAllMeals = CatchAsync(async (req, res, next) => {
    const data = await Meal.find();
 
@@ -16,6 +19,9 @@ exports.getAllMeals = CatchAsync(async (req, res, next) => {
    });
 });
 
+/**
+ * create meal item form database
+ */
 exports.createMeal = CatchAsync(async (req, res, next) => {
    const body = req.body;
    if (Object.keys(body).length === 0)
@@ -30,6 +36,9 @@ exports.createMeal = CatchAsync(async (req, res, next) => {
    });
 });
 
+/**
+ * update meal
+ */
 exports.updateMeal = CatchAsync(async (req, res, next) => {
    const body = req.body;
    const data = await Meal.findByIdAndUpdate(req.params.id, body);
